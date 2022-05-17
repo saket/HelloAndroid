@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,7 +38,8 @@ fun MainContent() {
         modifier = Modifier
           .align(Alignment.Center)
           .padding(64.dp),
-        text = "If you're able to see this screen then you're ready!",
+        text = "🦄🐳🐈🐿🦔🌞",
+        fontSize = 64.sp,
         textAlign = TextAlign.Center
       )
     }
