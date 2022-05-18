@@ -7,11 +7,24 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun HelloAndroidTheme(content: @Composable () -> Unit) {
+  val darkColors = darkColors(
+    background = Color.VeryDarkGray,
+    surface = Color.VeryDarkGray,
+    primary = Color.VeryDarkGray,
+  )
+
+  val lightColors = lightColors(
+    primary = Color.White,
+    onPrimary = Color.DarkGray,
+    surface = Color.DarkGray,
+  )
+
   MaterialTheme(
-    colors = if (isSystemInDarkTheme()) darkColors() else lightColors(),
+    colors = if (isSystemInDarkTheme()) darkColors else lightColors,
     content = {
       val defaultTextStyle = LocalTextStyle.current.copy(
         color = MaterialTheme.colors.onBackground
@@ -22,3 +35,8 @@ fun HelloAndroidTheme(content: @Composable () -> Unit) {
     }
   )
 }
+
+val Color.Companion.VeryDarkGray get() = Color(0xFF121212)
+val Color.Companion.PortlandOrange get() = Color(0xFFFD4F33)
+val Color.Companion.Amaranth get() = Color(0xFFEE3952)
+val Color.Companion.Razzmatazz get() = Color(0xFFDF2772)
