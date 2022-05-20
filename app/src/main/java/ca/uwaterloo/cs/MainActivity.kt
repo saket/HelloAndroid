@@ -21,27 +21,27 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      MainContent()
+      HelloAndroidTheme {
+        MainContent()
+      }
     }
   }
 }
 
 @Composable
 fun MainContent() {
-  HelloAndroidTheme {
-    Box(
-      Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colors.background),
-    ) {
-      Text(
-        modifier = Modifier
-          .align(Alignment.Center)
-          .padding(64.dp),
-        text = "🦄🐳🐈🐿🦔🌞",
-        fontSize = 64.sp,
-        textAlign = TextAlign.Center
-      )
-    }
+  Box(
+    Modifier
+      .fillMaxSize()
+      .background(MaterialTheme.colors.background),
+  ) {
+    Text(
+      modifier = Modifier
+        .align(Alignment.Center)
+        .padding(64.dp),
+      text = "🦄🐳🐈🐿🦔🌞",
+      fontSize = 64.sp,
+      textAlign = TextAlign.Center
+    )
   }
 }
