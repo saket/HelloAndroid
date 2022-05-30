@@ -37,6 +37,6 @@ fun HelloAndroidTheme(content: @Composable () -> Unit) {
 }
 
 val Color.Companion.VeryDarkGray get() = Color(0xFF121212)
-val Color.Companion.PortlandOrange get() = Color(0xFFFD4F33)
-val Color.Companion.Amaranth get() = Color(0xFFEE3952)
-val Color.Companion.Razzmatazz get() = Color(0xFFDF2772)
+val Color.Companion.InstagramOrange get() = Color(0xFFFD4F33)
+val Color.Companion.InstagramPeach get() = Color(0xFFEE3952)
+val Color.Companion.InstagramPurple get() = Color(0xFFDF2772)

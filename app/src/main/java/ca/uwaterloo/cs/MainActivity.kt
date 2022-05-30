@@ -43,10 +43,10 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
-import ca.uwaterloo.cs.ui.theme.Amaranth
+import ca.uwaterloo.cs.ui.theme.InstagramPeach
 import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
-import ca.uwaterloo.cs.ui.theme.PortlandOrange
-import ca.uwaterloo.cs.ui.theme.Razzmatazz
+import ca.uwaterloo.cs.ui.theme.InstagramOrange
+import ca.uwaterloo.cs.ui.theme.InstagramPurple
 import coil.compose.rememberAsyncImagePainter
 
 class MainActivity : ComponentActivity() {
@@ -113,7 +113,7 @@ private fun StoriesAvatar(onClick: (position: IntOffset) -> Unit) {
       .padding(end = 8.dp)
       .border(
         width = 2.dp,
-        brush = Brush.verticalGradient(listOf(Color.PortlandOrange, Color.Amaranth, Color.Razzmatazz)),
+        brush = Brush.verticalGradient(listOf(Color.InstagramOrange, Color.InstagramPeach, Color.InstagramPurple)),
         shape = CircleShape
       )
       .padding(6.dp)
