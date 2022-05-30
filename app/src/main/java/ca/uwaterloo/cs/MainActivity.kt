@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
-import androidx.compose.ui.*
+import androidx.compose.ui.*  // Wildcard imports are terrible, but this will avoid confusion from duplicate imports for beginners.
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
