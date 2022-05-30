@@ -10,7 +10,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,7 +48,6 @@ import ca.uwaterloo.cs.ui.theme.InstagramOrange
 import ca.uwaterloo.cs.ui.theme.InstagramPeach
 import ca.uwaterloo.cs.ui.theme.InstagramPurple
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +76,7 @@ fun MainContent() {
       }
 
       var isStoryVisible by remember { mutableStateOf(false) }
-      var clickedStoryPosition: IntOffset by remember { mutableStateOf(IntOffset.Zero) }
+      var clickedStory: ClickedStory? by remember { mutableStateOf(null) }
 
       Column {
         TopAppBar(
@@ -92,8 +90,8 @@ fun MainContent() {
           for (story in model.stories) {
             StoryAvatar(
               story = story,
-              onClick = { offset ->
-                clickedStoryPosition = offset
+              onClick = { clicked ->
+                clickedStory = clicked
                 isStoryVisible = true
               }
             )
@@ -103,10 +101,10 @@ fun MainContent() {
 
       AnimatedVisibility(
         visible = isStoryVisible,
-        enter = scaleIn(transformOrigin = TransformOrigin.TopLeft) + slideIn(initialOffset = { clickedStoryPosition }),
-        exit = scaleOut(transformOrigin = TransformOrigin.TopLeft) + slideOut(targetOffset = { clickedStoryPosition }),
+        enter = scaleIn(transformOrigin = TransformOrigin.TopLeft) + slideIn(initialOffset = { clickedStory!!.clickedAt }),
+        exit = scaleOut(transformOrigin = TransformOrigin.TopLeft) + slideOut(targetOffset = { clickedStory!!.clickedAt }),
       ) {
-        FullScreenStory()
+        FullScreenStory(story = clickedStory!!.story)
       }
       BackHandler(enabled = isStoryVisible) {
         isStoryVisible = false
@@ -118,7 +116,7 @@ fun MainContent() {
 @Composable
 private fun StoryAvatar(
   story: HomeModel.Story,
-  onClick: (position: IntOffset) -> Unit
+  onClick: (ClickedStory) -> Unit
 ) {
   var position: IntOffset? by remember { mutableStateOf(null) }
 
@@ -140,7 +138,12 @@ private fun StoryAvatar(
           .round() + coordinates.size.center
       }
       .clickable {
-        onClick(position!!)
+        onClick(
+          ClickedStory(
+            story = story,
+            clickedAt = position!!
+          )
+        )
       }
   ) {
     AsyncImage(
@@ -153,16 +156,21 @@ private fun StoryAvatar(
 }
 
 @Composable
-private fun FullScreenStory() {
-  Image(
+private fun FullScreenStory(story: HomeModel.Story) {
+  AsyncImage(
     modifier = Modifier
       .fillMaxSize()
       .background(Color.DarkGray),
-    painter = rememberAsyncImagePainter("https://images.unsplash.com/photo-1571972269933-1289cd01e0aa?w=1080"),
+    model = story.imageUrl,
     contentDescription = null,
     contentScale = ContentScale.Crop
   )
 }
+
+private data class ClickedStory(
+  val story: HomeModel.Story,
+  val clickedAt: IntOffset,
+)
 
 private val TransformOrigin.Companion.TopLeft
   get() = TransformOrigin(pivotFractionX = 0f, pivotFractionY = 0f)
