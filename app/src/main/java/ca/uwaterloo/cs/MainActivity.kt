@@ -43,9 +43,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
-import ca.uwaterloo.cs.ui.theme.InstagramPeach
 import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
 import ca.uwaterloo.cs.ui.theme.InstagramOrange
+import ca.uwaterloo.cs.ui.theme.InstagramPeach
 import ca.uwaterloo.cs.ui.theme.InstagramPurple
 import coil.compose.rememberAsyncImagePainter
 
@@ -80,7 +80,7 @@ fun MainContent() {
             .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
           repeat(10) {
-            StoriesAvatar(
+            StoryAvatar(
               onClick = { offset ->
                 clickedStoryPosition = offset
                 isStoryVisible = true
@@ -92,8 +92,8 @@ fun MainContent() {
 
       AnimatedVisibility(
         visible = isStoryVisible,
-        enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) + slideIn(initialOffset = { clickedStoryPosition }),
-        exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) + slideOut(targetOffset = { clickedStoryPosition }),
+        enter = scaleIn(transformOrigin = TransformOrigin.TopLeft) + slideIn(initialOffset = { clickedStoryPosition }),
+        exit = scaleOut(transformOrigin = TransformOrigin.TopLeft) + slideOut(targetOffset = { clickedStoryPosition }),
       ) {
         FullScreenStory()
       }
@@ -105,7 +105,7 @@ fun MainContent() {
 }
 
 @Composable
-private fun StoriesAvatar(onClick: (position: IntOffset) -> Unit) {
+private fun StoryAvatar(onClick: (position: IntOffset) -> Unit) {
   var position: IntOffset? by remember { mutableStateOf(null) }
 
   Box(
@@ -142,3 +142,6 @@ private fun FullScreenStory() {
     contentScale = ContentScale.Crop
   )
 }
+
+private val TransformOrigin.Companion.TopLeft
+  get() = TransformOrigin(pivotFractionX = 0f, pivotFractionY = 0f)
