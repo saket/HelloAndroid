@@ -27,6 +27,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,7 @@ import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
 import ca.uwaterloo.cs.ui.theme.InstagramOrange
 import ca.uwaterloo.cs.ui.theme.InstagramPeach
 import ca.uwaterloo.cs.ui.theme.InstagramPurple
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 
 class MainActivity : ComponentActivity() {
@@ -67,6 +69,14 @@ fun MainContent() {
         .fillMaxSize()
         .background(MaterialTheme.colors.background),
     ) {
+      var model by remember { mutableStateOf(HomeModel()) }
+      LaunchedEffect(Unit) {
+        // LaunchedEffect is called a "side effect" that runs every time its "key"
+        // parameter changes. When Unit is given as its key, it'll only run once.
+        val presenter = HomePresenter()
+        model = presenter.present()
+      }
+
       var isStoryVisible by remember { mutableStateOf(false) }
       var clickedStoryPosition: IntOffset by remember { mutableStateOf(IntOffset.Zero) }
 
@@ -79,8 +89,9 @@ fun MainContent() {
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
-          repeat(10) {
+          for (story in model.stories) {
             StoryAvatar(
+              story = story,
               onClick = { offset ->
                 clickedStoryPosition = offset
                 isStoryVisible = true
@@ -105,7 +116,10 @@ fun MainContent() {
 }
 
 @Composable
-private fun StoryAvatar(onClick: (position: IntOffset) -> Unit) {
+private fun StoryAvatar(
+  story: HomeModel.Story,
+  onClick: (position: IntOffset) -> Unit
+) {
   var position: IntOffset? by remember { mutableStateOf(null) }
 
   Box(
@@ -128,7 +142,14 @@ private fun StoryAvatar(onClick: (position: IntOffset) -> Unit) {
       .clickable {
         onClick(position!!)
       }
-  )
+  ) {
+    AsyncImage(
+      modifier = Modifier.matchParentSize(),
+      model = story.imageUrl,
+      contentDescription = null,
+      contentScale = ContentScale.Crop
+    )
+  }
 }
 
 @Composable
