@@ -72,7 +72,9 @@ fun MainContent() {
 
         LaunchedEffect(Unit) {
           val presenter = HomePresenter()
-          dogImages.value = presenter.fetchDogImages()
+          thread {
+            dogImages.value = presenter.fetchDogImages()
+          }
         }
 
         for (dogImage in dogImages.value) {
